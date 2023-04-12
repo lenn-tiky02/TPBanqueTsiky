@@ -6,13 +6,9 @@ package mg.itu.tpbanquetsiky.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.Query;
-import java.util.List;
 
 /**
  *
@@ -20,9 +16,6 @@ import java.util.List;
  */
 @Entity
 public class CompteBancaire implements Serializable {
-
-    @PersistenceContext(unitName = "banquePU")
-    private EntityManager em;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -34,6 +27,11 @@ public class CompteBancaire implements Serializable {
     private int solde;
 
     public CompteBancaire() {
+    }
+
+    public CompteBancaire(String nom, int solde) {
+        this.nom = nom;
+        this.solde = solde;
     }
 
     public Long getId() {
@@ -81,11 +79,6 @@ public class CompteBancaire implements Serializable {
         return "mg.itu.tpbanquetsiky.entities.CompteBancaire[ id=" + id + " ]";
     }
 
-    public CompteBancaire(String nom, int solde) {
-        this.nom = nom;
-        this.solde = solde;
-    }
-
     public void deposer(int montant) {
         solde += montant;
     }
@@ -96,14 +89,5 @@ public class CompteBancaire implements Serializable {
         } else {
             solde = 0;
         }
-    }
-
-    public void creerCompte(CompteBancaire c) {
-        em.persist(c);
-    }
-
-    public List<CompteBancaire> getAllComptes() {
-        Query query = em.createNamedQuery("CompteBancaire.findAll");
-        return query.getResultList();
     }
 }
