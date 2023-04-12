@@ -40,7 +40,7 @@ public class GestionnaireCompte {
     }
 
     public List<CompteBancaire> getAllComptes() {
-        Query query = em.createNamedQuery("CompteBancaire.findAll");
+        Query query = em.createQuery("SELECT c FROM CompteBancaire c");
         return query.getResultList();
     }
 
@@ -52,10 +52,10 @@ public class GestionnaireCompte {
         return em.find(CompteBancaire.class, idCompteBancaire);
     }
 
-    public int nbComptes() {
-        String s = "select count(c) from CompteBancaire c";
+    public long nbComptes() {
+        String s = "SELECT COUNT(c) FROM CompteBancaire c";
         Query query = em.createQuery(s);
-        return query.getFirstResult();
+        return (long)query.getSingleResult();
     }
 
 }
