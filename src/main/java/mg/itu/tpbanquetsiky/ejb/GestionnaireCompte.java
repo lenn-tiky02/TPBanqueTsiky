@@ -55,7 +55,15 @@ public class GestionnaireCompte {
     public long nbComptes() {
         String s = "SELECT COUNT(c) FROM CompteBancaire c";
         Query query = em.createQuery(s);
-        return (long)query.getSingleResult();
+        return (long) query.getSingleResult();
+    }
+
+    public void transferer(CompteBancaire source, CompteBancaire destination,
+            int montant) {
+        source.retirer(montant);
+        destination.deposer(montant);
+        update(source);
+        update(destination);
     }
 
 }
