@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.List;
 import mg.itu.tpbanquetsiky.ejb.GestionnaireCompte;
 import mg.itu.tpbanquetsiky.entities.CompteBancaire;
+import mg.itu.tpbanquetsiky.util.Util;
 
 /**
  *
@@ -61,7 +62,30 @@ public class Transfert implements Serializable {
      * Retourne la liste des clients pour affichage dans une DataTable.
      */
     public String transfertArgent() {
-        compteBancaireEJB.transferer(compteBancaireEJB.findById(idSource), compteBancaireEJB.findById(idDestination), montant);
-        return "listeComptes";
+        boolean erreur = false;
+        CompteBancaire source = compteBancaireEJB.findById(idSource);
+        CompteBancaire destination = compteBancaireEJB.findById(idDestination);
+        if (source == null) {
+            // Message d'erreur associé au composant source ; form:source est l'id client
+            // si l'id du formulaire est "form" et l'id du champ de saisie de l'id de la source est "source"
+            // dans la page JSF qui lance le transfert.
+            Util.messageErreur("Aucun compte avec cet id !", "Aucun compte avec cet id !", "form:source");
+            erreur = true;
+        } else {
+            if (source.getSolde() < montant) {
+                Util.messageErreur("Solde insuffisant !", "Solde insuffisant !", "form:source");
+                erreur = true;
+            }
+        }
+        if (erreur) {
+            // en cas d'erreur, rester sur la même page
+            return null;
+        }
+
+        compteBancaireEJB.transferer(source, destination, montant);
+
+        Util.addFlashInfoMessage("Transfert d'argent effectué avec succès !");
+
+        return "listeComptes?faces-redirect=true";
     }
 }
