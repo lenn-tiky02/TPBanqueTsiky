@@ -66,4 +66,7 @@ public class GestionnaireCompte {
         update(destination);
     }
 
+    public void supprimerCompte(CompteBancaire compte) {
+        em.remove(em.merge(compte));
+    }
 }

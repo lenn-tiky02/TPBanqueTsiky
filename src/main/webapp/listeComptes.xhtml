@@ -23,6 +23,15 @@
 
                             <p:dataTable value="#{listeComptes.allComptes}" var="item"
                                          tableStyle="width:auto" stripedRows="true" >
+                                <p:column width="10">
+                                    <f:facet name="header">
+                                        <h:outputText value="Opérations"/>
+                                    </f:facet>
+                                    <h:commandLink action="#{listeComptes.supprimerCompte(item)}"
+                                                   title="Supprimer le compte de #{item.nom}" >
+                                        <h:graphicImage name="images/del.png"/>
+                                    </h:commandLink>
+                                </p:column>
                                 <p:column width="40">
                                     <f:facet name="header">
                                         <h:outputText value="Id"/>
