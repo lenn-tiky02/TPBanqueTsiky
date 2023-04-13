@@ -84,7 +84,7 @@ public class Transfert implements Serializable {
 
         compteBancaireEJB.transferer(source, destination, montant);
 
-        Util.addFlashInfoMessage("Transfert d'argent effectué avec succès !");
+        Util.addFlashInfoMessage("Transfert d'argent effectué avec succès ! Info: Source= "+ source.getNom() + ", Destination= "+ destination.getNom() +", Montant=" + montant);
 
         return "listeComptes?faces-redirect=true";
     }
