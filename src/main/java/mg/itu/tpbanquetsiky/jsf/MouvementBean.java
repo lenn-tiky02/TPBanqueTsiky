@@ -45,7 +45,7 @@ public class MouvementBean implements Serializable {
     }
 
     @EJB
-    private GestionnaireCompte customerManager;
+    private GestionnaireCompte compteManager;
 
     public int getIdCompteBancaire() {
         return idCompteBancaire;
@@ -73,24 +73,24 @@ public class MouvementBean implements Serializable {
     public String update() {
         // Modifie la base de données.
         // Il faut affecter à customer (sera expliqué dans le cours).
-        compte = customerManager.update(compte);
+        compte = compteManager.update(compte);
         return "customerList";
     }
 
     public void loadCompteBancaire() {
-        this.compte = customerManager.findById(idCompteBancaire);
+        this.compte = compteManager.findById(idCompteBancaire);
     }
 
     public String enregistrerMouvement() {
         if ("ajout".equals(typeMouvement)) {
             compte.setSolde(compte.getSolde() + montant);
-            customerManager.update(compte);
+            compteManager.update(compte);
 
             Util.addFlashInfoMessage("Dépot d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
 
         } else {
             compte.setSolde(compte.getSolde() - montant);
-            customerManager.update(compte);
+            compteManager.update(compte);
             Util.addFlashInfoMessage("Retrait d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
         }
         

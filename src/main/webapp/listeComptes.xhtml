@@ -29,9 +29,14 @@
                                     </f:facet>
                                     <h:commandLink action="#{listeComptes.supprimerCompte(item)}"
                                                    title="Supprimer le compte de #{item.nom}" >
-                                        <h:graphicImage name="images/del.png"/>
+                                        <h:graphicImage name="images/del.png" width="20"/>
                                     </h:commandLink>
-                                </p:column>
+                                     
+                                    <h:commandLink action="#{listeComptes.updateAction(item.id)}"
+                                                   title="Modifier le compte de #{item.nom}" >
+                                        <h:graphicImage name="images/mod.png" width="20"/>
+                                    </h:commandLink>
+                                </p:column>                               
                                 <p:column width="40">
                                     <f:facet name="header">
                                         <h:outputText value="Id"/>
