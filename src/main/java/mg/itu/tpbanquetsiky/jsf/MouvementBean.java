@@ -5,8 +5,10 @@
 package mg.itu.tpbanquetsiky.jsf;
 
 import jakarta.ejb.EJB;
+import jakarta.ejb.EJBException;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Named;
+import jakarta.persistence.OptimisticLockException;
 import jakarta.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 import mg.itu.tpbanquetsiky.ejb.GestionnaireCompte;
@@ -24,7 +26,7 @@ public class MouvementBean implements Serializable {
     private int idCompteBancaire;
     private CompteBancaire compte;
     private String typeMouvement;
-    
+
     @PositiveOrZero
     private int montant;
 
@@ -82,19 +84,33 @@ public class MouvementBean implements Serializable {
     }
 
     public String enregistrerMouvement() {
-        if ("ajout".equals(typeMouvement)) {
-            compte.setSolde(compte.getSolde() + montant);
-            compteManager.update(compte);
+        try {
+            if ("ajout".equals(typeMouvement)) {
+                compte.setSolde(compte.getSolde() + montant);
+                compteManager.update(compte);
 
-            Util.addFlashInfoMessage("Dépot d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
+                Util.addFlashInfoMessage("Dépot d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
 
-        } else {
-            compte.setSolde(compte.getSolde() - montant);
-            compteManager.update(compte);
-            Util.addFlashInfoMessage("Retrait d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
+            } else {
+                compte.setSolde(compte.getSolde() - montant);
+                compteManager.update(compte);
+                Util.addFlashInfoMessage("Retrait d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
+            }
+
+            return "listeComptes?faces-redirect=true";
+        } catch (EJBException ex) {
+            Throwable cause = ex.getCause();
+            if (cause != null) {
+                if (cause instanceof OptimisticLockException) {
+                    Util.messageErreur("Le compte de " + compte.getNom()
+                            + " a été modifié ou supprimé par un autre utilisateur !");
+                } else { // Afficher le message de ex si la cause n'est pas une OptimisticLockException
+                    Util.messageErreur(cause.getMessage());
+                }
+            } else { // Pas de cause attachée à l'EJBException
+                Util.messageErreur(ex.getMessage());
+            }
+            return null; // pour rester sur la page s'il y a une exception
         }
-        
-        return "listeComptes?faces-redirect=true"; 
     }
-  
 }
