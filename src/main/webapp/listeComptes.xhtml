@@ -31,7 +31,7 @@
                                                    title="Supprimer le compte de #{item.nom}" >
                                         <h:graphicImage name="images/del.png" width="20"/>
                                     </h:commandLink>
-                                     
+
                                     <h:commandLink action="#{listeComptes.updateAction(item.id)}"
                                                    title="Modifier le compte de #{item.nom}" >
                                         <h:graphicImage name="images/mod.png" width="20"/>
@@ -57,6 +57,14 @@
                                     <h:outputText value="#{item.solde}">
                                         <f:convertNumber pattern="###,###,##0"/>
                                     </h:outputText>
+                                </p:column> 
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText escape="false" value="Historique&lt;br/>opérations"/>
+                                    </f:facet>
+                                    <h:link value="Détails" outcome="operations" >
+                                        <f:param name="id" value="#{item.id}" />
+                                    </h:link>
                                 </p:column>
                             </p:dataTable>  
                         </p:panelGrid>
