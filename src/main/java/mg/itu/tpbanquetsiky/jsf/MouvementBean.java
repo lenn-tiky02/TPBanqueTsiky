@@ -86,13 +86,13 @@ public class MouvementBean implements Serializable {
     public String enregistrerMouvement() {
         try {
             if ("ajout".equals(typeMouvement)) {
-                compte.setSolde(compte.getSolde() + montant);
+                compte.deposer(montant);
                 compteManager.update(compte);
 
                 Util.addFlashInfoMessage("Dépot d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
 
             } else {
-                compte.setSolde(compte.getSolde() - montant);
+                compte.retirer(montant);
                 compteManager.update(compte);
                 Util.addFlashInfoMessage("Retrait d'argent effectué avec succès ! Info: Compte de= " + compte.getNom() + ", Montant=" + montant);
             }
