@@ -30,7 +30,7 @@
 
                             <p:dataTable value="#{operations.operationsBancaires}" var="item"
                                          tableStyle="width:auto" stripedRows="true" >                                                        
-                               <!-- <p:column width="40">
+                              <!-- <p:column width="40">
                                     <f:facet name="header">
                                         <h:outputText value="Id"/>
                                     </f:facet>
@@ -47,7 +47,7 @@
                                         <h:outputText value="Date opération"/>
                                     </f:facet>
                                     <h:outputText value="#{item.dateOperation}">
-                                        <!--<f:convertDateTime pattern="dd-MM-yyyy HH:mm"/> -->
+                                        <f:convertDateTime pattern="dd-MM-yyyy HH:mm" type="both"/>
                                     </h:outputText>
                                 </p:column>
                                 <p:column style="text-align:right;" width="60">
