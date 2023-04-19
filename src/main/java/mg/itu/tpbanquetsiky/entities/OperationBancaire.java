@@ -9,6 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -24,7 +25,7 @@ public class OperationBancaire implements Serializable {
     private Long id;
     private String description;
 
-    private Date dateOperation;
+    private LocalDateTime dateOperation;
 
     private int montant;
 
@@ -34,7 +35,7 @@ public class OperationBancaire implements Serializable {
     public OperationBancaire(String description, int montant) {
         this.description = description;
         this.montant = montant;
-        dateOperation = new Date();
+        dateOperation = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -53,11 +54,11 @@ public class OperationBancaire implements Serializable {
         this.description = description;
     }
 
-    public Date getDateOperation() {
+    public LocalDateTime getDateOperation() {
         return dateOperation;
     }
 
-    public void setDateOperation(Date dateOperation) {
+    public void setDateOperation(LocalDateTime dateOperation) {
         this.dateOperation = dateOperation;
     }
 
